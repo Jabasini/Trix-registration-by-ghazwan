@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tricks Game Score Registration</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #121212; 
+            color: #ffffff; 
+            text-align: left; 
+            direction: ltr;
+        }
+        form { 
+            margin-top: 20px; 
+            background-color: #333; 
+            padding: 20px; 
+            border-radius: 8px;
+        }
+        input, select, textarea, button { 
+            margin: 5px 0; 
+            padding: 10px; 
+            width: 100%; 
+            background-color: #555; 
+            color: #fff; 
+            border: none; 
+            border-radius: 4px;
+        }
+        button { 
+            background-color: #1a73e8; 
+            cursor: pointer;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+            color: #fff;
+        }
+        th, td { 
+            border: 1px solid #444; 
+            padding: 8px; 
+            text-align: center; 
+        }
+        img { 
+            display: block; 
+            margin: 20px auto; 
+            width: 300px; 
+        }
+        #analysis { 
+            font-size: 18px; 
+            margin-top: 20px; 
+        }
+        .highlight { 
+            font-weight: bold; 
+            font-size: 24px; 
+            color: #ff5722; 
+            text-align: center; 
+            margin-top: 10px; 
+        }
+        #content-container { 
+            display: flex; 
+            flex-direction: row-reverse; 
+            gap: 20px; 
+            align-items: flex-start; 
+        }
+    </style>
+</head>
+<body>
+
+<h2>Tricks Game Final Score Registration</h2>
+
+<div class="highlight" id="leadingTeam"></div>
+
+<div id="content-container">
+    <!-- Displaying Card Image -->
+    <img src="cards.jpg" alt="Playing Cards">
+
+    <!-- Results Analysis Section -->
+    <div id="analysis">
+        <h3>Results Analysis</h3>
+        <p>Total Score of Ameen: <span id="totalAmeen">0</span></p>
+        <p>Total Score of Toufic: <span id="totalToufic">0</span></p>
+        <p>Monthly Analysis:</p>
+        <ul id="monthlyAnalysis"></ul>
+    </div>
+</div>
+
+<form id="recordForm">
+    <label for="date">Date:</label>
+    <input type="date" id="date" readonly required>
+    
+    <label for="name">Player's Name:</label>
+    <!-- Dropdown List -->
+    <select id="name" required>
+        <option value="">Select a Player</option>
+        <option value="Ameen">Ameen</option>
+        <option value="Marwan">Marwan</option>
+        <option value="Karam">Karam</option>
+        <option value="Toufic">Toufic</option>
+    </select>
+    
+    <label>Game Score:</label>
+    <div style="display: flex; gap: 10px;">
+        <input type="number" id="scoreAmeen" placeholder="Ameen's Score" required>
+        <input type="number" id="scoreToufic" placeholder="Toufic's Score" required>
+    </div>
+    
+    <label for="notes">Notes:</label>
+    <textarea id="notes" placeholder="Additional notes..."></textarea>
+    
+    <button type="button" onclick="addRecord()">Add Score</button>
+</form>
+
+<table id="recordsTable">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Player's Name</th>
+            <th>Ameen's Score</th>
+            <th>Toufic's Score</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script>
+    // Auto-set current date on page load
+    window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById("date").value = today;
+    };
+
+    // Calculate total scores and update monthly analysis
+    let totalAmeen = 0;
+    let totalToufic = 0;
+    const monthlyResults = {};
+
+    function addRecord() {
+        const date = document.getElementById("date").value;
+        const name = document.getElementById("name").value;
+        const scoreAmeen = parseInt(document.getElementById("scoreAmeen").value) || 0;
+        const scoreToufic = parseInt(document.getElementById("scoreToufic").value) || 0;
+        const notes = document.getElementById("notes").value;
+
+        if (date && name && (scoreAmeen || scoreToufic)) {
+            const table = document.getElementById("recordsTable").getElementsByTagName("tbody")[0];
+            const newRow = table.insertRow();
+
+            newRow.insertCell(0).innerText = date;
+            newRow.insertCell(1).innerText = name;
+            newRow.insertCell(2).innerText = scoreAmeen;
+            newRow.insertCell(3).innerText = scoreToufic;
+            newRow.insertCell(4).innerText = notes;
+
+            // Update total scores
+            totalAmeen += scoreAmeen;
+            totalToufic += scoreToufic;
+
+            document.getElementById("totalAmeen").innerText = totalAmeen;
+            document.getElementById("totalToufic").innerText = totalToufic;
+
+            // Monthly Analysis
+            const month = date.slice(0, 7);
+            if (!monthlyResults[month]) {
+                monthlyResults[month] = { ameen: 0, toufic: 0 };
+            }
+            monthlyResults[month].ameen += scoreAmeen;
+            monthlyResults[month].toufic += scoreToufic;
+
+            updateMonthlyAnalysis();
+            updateLeadingTeam();
+
+            document.getElementById("recordForm").reset();
+            document.getElementById("date").value = date;
+        } else {
+            alert("Please fill in all required fields.");
+        }
+    }
+
+    // Update monthly analysis
+    function updateMonthlyAnalysis() {
+        const monthlyAnalysis = document.getElementById("monthlyAnalysis");
+        monthlyAnalysis.innerHTML = "";
+        for (const [month, scores] of Object.entries(monthlyResults)) {
+            const li = document.createElement("li");
+            li.innerText = `${month}: Ameen's Score = ${scores.ameen}, Toufic's Score = ${scores.toufic}`;
+            monthlyAnalysis.appendChild(li);
+        }
+    }
+
+    // Update leading team display
+    function updateLeadingTeam() {
+        const leadingTeam = document.getElementById("leadingTeam");
+        if (totalAmeen > totalToufic) {
+            leadingTeam.innerText = "Leading Team: Ameen";
+        } else if (totalToufic > totalAmeen) {
+            leadingTeam.innerText = "Leading Team: Toufic";
+        } else {
+            leadingTeam.innerText = "The teams are tied";
+        }
+    }
+</script>
+
+</body>
+</html>
