@@ -79,8 +79,8 @@
     <!-- Results Analysis Section -->
     <div id="analysis">
         <h3>Results Analysis</h3>
-        <p>Total Score of Ameen: <span id="totalAmeen">0</span></p>
-        <p>Total Score of Toufic: <span id="totalToufic">0</span></p>
+        <p>Total Score of Abo Amin: <span id="totalAboAmin">0</span></p>
+        <p>Total Score of Abo Toufic: <span id="totalAboToufic">0</span></p>
         <p>Monthly Analysis:</p>
         <ul id="monthlyAnalysis"></ul>
     </div>
@@ -94,16 +94,16 @@
     <!-- Dropdown List -->
     <select id="name" required>
         <option value="">Select a Player</option>
-        <option value="Ameen">Ameen</option>
-        <option value="Marwan">Marwan</option>
-        <option value="Karam">Karam</option>
-        <option value="Toufic">Toufic</option>
+        <option value="Abo Amin">Abo Amin</option>
+        <option value="Abo Marwan">Abo Marwan</option>
+        <option value="Abo Karam">Abo Karam</option>
+        <option value="Abo Toufic">Abo Toufic</option>
     </select>
     
     <label>Game Score:</label>
     <div style="display: flex; gap: 10px;">
-        <input type="number" id="scoreAmeen" placeholder="Ameen's Score" required>
-        <input type="number" id="scoreToufic" placeholder="Toufic's Score" required>
+        <input type="number" id="scoreAboAmin" placeholder="Abo Amin's Score" required>
+        <input type="number" id="scoreAboToufic" placeholder="Abo Toufic's Score" required>
     </div>
     
     <label for="notes">Notes:</label>
@@ -117,8 +117,8 @@
         <tr>
             <th>Date</th>
             <th>Player's Name</th>
-            <th>Ameen's Score</th>
-            <th>Toufic's Score</th>
+            <th>Abo Amin's Score</th>
+            <th>Abo Toufic's Score</th>
             <th>Notes</th>
         </tr>
     </thead>
@@ -134,41 +134,41 @@
     };
 
     // Calculate total scores and update monthly analysis
-    let totalAmeen = 0;
-    let totalToufic = 0;
+    let totalAboAmin = 0;
+    let totalAboToufic = 0;
     const monthlyResults = {};
 
     function addRecord() {
         const date = document.getElementById("date").value;
         const name = document.getElementById("name").value;
-        const scoreAmeen = parseInt(document.getElementById("scoreAmeen").value) || 0;
-        const scoreToufic = parseInt(document.getElementById("scoreToufic").value) || 0;
+        const scoreAboAmin = parseInt(document.getElementById("scoreAboAmin").value) || 0;
+        const scoreAboToufic = parseInt(document.getElementById("scoreAboToufic").value) || 0;
         const notes = document.getElementById("notes").value;
 
-        if (date && name && (scoreAmeen || scoreToufic)) {
+        if (date && name && (scoreAboAmin || scoreAboToufic)) {
             const table = document.getElementById("recordsTable").getElementsByTagName("tbody")[0];
             const newRow = table.insertRow();
 
             newRow.insertCell(0).innerText = date;
             newRow.insertCell(1).innerText = name;
-            newRow.insertCell(2).innerText = scoreAmeen;
-            newRow.insertCell(3).innerText = scoreToufic;
+            newRow.insertCell(2).innerText = scoreAboAmin;
+            newRow.insertCell(3).innerText = scoreAboToufic;
             newRow.insertCell(4).innerText = notes;
 
             // Update total scores
-            totalAmeen += scoreAmeen;
-            totalToufic += scoreToufic;
+            totalAboAmin += scoreAboAmin;
+            totalAboToufic += scoreAboToufic;
 
-            document.getElementById("totalAmeen").innerText = totalAmeen;
-            document.getElementById("totalToufic").innerText = totalToufic;
+            document.getElementById("totalAboAmin").innerText = totalAboAmin;
+            document.getElementById("totalAboToufic").innerText = totalAboToufic;
 
             // Monthly Analysis
             const month = date.slice(0, 7);
             if (!monthlyResults[month]) {
-                monthlyResults[month] = { ameen: 0, toufic: 0 };
+                monthlyResults[month] = { aboAmin: 0, aboToufic: 0 };
             }
-            monthlyResults[month].ameen += scoreAmeen;
-            monthlyResults[month].toufic += scoreToufic;
+            monthlyResults[month].aboAmin += scoreAboAmin;
+            monthlyResults[month].aboToufic += scoreAboToufic;
 
             updateMonthlyAnalysis();
             updateLeadingTeam();
@@ -186,7 +186,7 @@
         monthlyAnalysis.innerHTML = "";
         for (const [month, scores] of Object.entries(monthlyResults)) {
             const li = document.createElement("li");
-            li.innerText = `${month}: Ameen's Score = ${scores.ameen}, Toufic's Score = ${scores.toufic}`;
+            li.innerText = `${month}: Abo Amin's Score = ${scores.aboAmin}, Abo Toufic's Score = ${scores.aboToufic}`;
             monthlyAnalysis.appendChild(li);
         }
     }
@@ -194,10 +194,10 @@
     // Update leading team display
     function updateLeadingTeam() {
         const leadingTeam = document.getElementById("leadingTeam");
-        if (totalAmeen > totalToufic) {
-            leadingTeam.innerText = "Leading Team: Ameen";
-        } else if (totalToufic > totalAmeen) {
-            leadingTeam.innerText = "Leading Team: Toufic";
+        if (totalAboAmin > totalAboToufic) {
+            leadingTeam.innerText = "Leading Team: Abo Amin";
+        } else if (totalAboToufic > totalAboAmin) {
+            leadingTeam.innerText = "Leading Team: Abo Toufic";
         } else {
             leadingTeam.innerText = "The teams are tied";
         }
