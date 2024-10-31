@@ -80,7 +80,7 @@
     <div id="analysis">
         <h3>Results Analysis</h3>
         <p>Total Score of Abo Amin: <span id="totalAboAmin">0</span></p>
-        <p>Total Score of Abo Toufic ALKHARA: <span id="totalAboToufic">0</span></p>
+        <p>Total Score of Abo Toufic: <span id="totalAboToufic">0</span></p>
         <p>Monthly Analysis:</p>
         <ul id="monthlyAnalysis"></ul>
     </div>
@@ -97,13 +97,13 @@
         <option value="Abo Amin">Abo Amin</option>
         <option value="Abo Marwan">Abo Marwan</option>
         <option value="Abo Karam">Abo Karam</option>
-        <option value="Abo Toufic ALKHARA">Abo Toufic ALKHARA</option>
+        <option value="Abo Toufic">Abo Toufic</option>
     </select>
     
     <label>Game Score:</label>
     <div style="display: flex; gap: 10px;">
         <input type="number" id="scoreAboAmin" placeholder="Abo Amin's Score" required>
-        <input type="number" id="scoreAboToufic" placeholder="Abo Toufic ALKHARA's Score" required>
+        <input type="number" id="scoreAboToufic" placeholder="Abo Toufic's Score" required>
     </div>
     
     <label for="notes">Notes:</label>
@@ -118,7 +118,7 @@
             <th>Date</th>
             <th>Player's Name</th>
             <th>Abo Amin's Score</th>
-            <th>Abo Toufic ALKHARA's Score</th>
+            <th>Abo Toufic's Score</th>
             <th>Notes</th>
         </tr>
     </thead>
@@ -186,7 +186,7 @@
         monthlyAnalysis.innerHTML = "";
         for (const [month, scores] of Object.entries(monthlyResults)) {
             const li = document.createElement("li");
-            li.innerText = `${month}: Abo Amin's Score = ${scores.aboAmin}, Abo Toufic ALKHARA ALKHARA's Score = ${scores.aboToufic}`;
+            li.innerText = `${month}: Abo Amin's Score = ${scores.aboAmin}, Abo Toufic .'s Score = ${scores.aboToufic}`;
             monthlyAnalysis.appendChild(li);
         }
     }
@@ -197,7 +197,7 @@
         if (totalAboAmin > totalAboToufic) {
             leadingTeam.innerText = "Leading Team: Abo Amin";
         } else if (totalAboToufic > totalAboAmin) {
-            leadingTeam.innerText = "Leading Team: Abo Toufic ALKHARA";
+            leadingTeam.innerText = "Leading Team: Abo Toufic";
         } else {
             leadingTeam.innerText = "The teams are tied";
         }
